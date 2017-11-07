@@ -7,8 +7,6 @@ import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
-
-import static java.lang.Float.NaN;
 import static java.lang.Math.*;
 
 public class Controller {
@@ -101,34 +99,41 @@ public class Controller {
     private LineChart<Number, Number> chart = new LineChart<Number, Number>(xAxis,yAxis);
     @FXML
     public void doCheck(){
-        boolean b = false;
-        double x = Double.valueOf(input.getText());
-        if(Double.isNaN(func.calculate(-1)))
-            b=true;
-        if(Double.isNaN(func.calculate(x))){
-            first.setText("x > 0!");
-            second.setText("x > 0!");
-            third.setText("x > 0!");
-            forth.setText("x > 0!");
-            fifth.setText("x > 0!");
-            return;
-        }
-        first.setText(String.valueOf(func.calculate(x)));
-        if(b){
-            third.setText(String.valueOf(Lagrange.interpolate(x,coordinatesBigX,getCoordinatesBigY())));
-            forth.setText(String.valueOf(Lagrange.interpolate(x,coordinatesX,getCoordinatesY())));
-            fifth.setText(String.valueOf(Lagrange.interpolate(x,coordinates9X,getCoordinates9Y())));
-            double[] changedCoordY = getCoordinatesY();
-            changedCoordY[3] = func.calculate(PI*5/2);
-            second.setText(String.valueOf(Lagrange.interpolate(x,coordinatesX,changedCoordY)));
-        }
-        else{
-            third.setText(String.valueOf(Lagrange.interpolate(x,coordinatesNegBigX,getCoordinatesNegBigY())));
-            forth.setText(String.valueOf(Lagrange.interpolate(x,coordinatesNegX,getCoordinatesNegY())));
-            fifth.setText(String.valueOf(Lagrange.interpolate(x,coordinates9NegX,getCoordinates9NegY())));
-            double[] changedCoordY = getCoordinatesY();
-            changedCoordY[3] = func.calculate(-PI*3);
-            second.setText(String.valueOf(Lagrange.interpolate(x,coordinatesNegX,changedCoordY)));
+        try {
+            boolean b = false;
+            double x = Double.valueOf(input.getText());
+            if (Double.isNaN(func.calculate(-1)))
+                b = true;
+            if (Double.isNaN(func.calculate(x))) {
+                first.setText("x > 0!");
+                second.setText("x > 0!");
+                third.setText("x > 0!");
+                forth.setText("x > 0!");
+                fifth.setText("x > 0!");
+                return;
+            }
+            first.setText(String.valueOf(func.calculate(x)));
+            if (b) {
+                third.setText(String.valueOf(Lagrange.interpolate(x, coordinatesBigX, getCoordinatesBigY())));
+                forth.setText(String.valueOf(Lagrange.interpolate(x, coordinatesX, getCoordinatesY())));
+                fifth.setText(String.valueOf(Lagrange.interpolate(x, coordinates9X, getCoordinates9Y())));
+                double[] changedCoordY = getCoordinatesY();
+                changedCoordY[3] = func.calculate(PI * 5 / 2);
+                second.setText(String.valueOf(Lagrange.interpolate(x, coordinatesX, changedCoordY)));
+            } else {
+                third.setText(String.valueOf(Lagrange.interpolate(x, coordinatesNegBigX, getCoordinatesNegBigY())));
+                forth.setText(String.valueOf(Lagrange.interpolate(x, coordinatesNegX, getCoordinatesNegY())));
+                fifth.setText(String.valueOf(Lagrange.interpolate(x, coordinates9NegX, getCoordinates9NegY())));
+                double[] changedCoordY = getCoordinatesY();
+                changedCoordY[3] = func.calculate(-PI * 3);
+                second.setText(String.valueOf(Lagrange.interpolate(x, coordinatesNegX, changedCoordY)));
+            }
+        }catch (Exception e){
+            first.setText("Ввод");
+            second.setText("только");
+            third.setText("для");
+            forth.setText("чисел");
+            fifth.setText("!!!!!!!!!!");
         }
 
     }
